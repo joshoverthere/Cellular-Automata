@@ -18,6 +18,8 @@ using System.Timers;
 namespace Cellular_Automata
 {
 
+   
+
     public class cellGrid
     {
 
@@ -37,6 +39,8 @@ namespace Cellular_Automata
 
     public partial class MainWindow : Window
     {
+
+        Random r = new Random();
         public MainWindow()
         {
             InitializeComponent();
@@ -70,6 +74,7 @@ namespace Cellular_Automata
 
                     //store rectangle and cell value to temporary row
                     row.Add(newRec);
+                    
                     rowVals.Add(0);
 
                 }
@@ -78,44 +83,53 @@ namespace Cellular_Automata
                 cellGrid.thisGridVals.Add(rowVals);
             }
 
-            //enable cell in row 25 column 9
-            cellGrid.thisGridVals[25][9] = 1;
+
 
 
             System.Timers.Timer _timer = new System.Timers.Timer(1000); //Updates every quarter second.
             _timer.Enabled = true;
-            _timer.AutoReset = false;
             _timer.Elapsed += new ElapsedEventHandler(OnElapsedEvent);
 
 
         }
 
-        private void OnElapsedEvent(object source, ElapsedEventArgs e)
+        public void OnElapsedEvent(object source, ElapsedEventArgs e)
         {
             updateGrid();
         }
 
-        private void updateGrid()
+        public void updateGrid()
         {
-            //generate random co-ordinates and enable cell at that position
-            Random r = new Random();
-            int selectx = r.Next(0, 29);
-            int selecty = r.Next(0, 29);
+           
+            for (int i = 0; i < cellGrid.thisGrid.Count; i++)
+            {
+                for (int a = 0; a < cellGrid.thisGrid[i].Count; a++)
+                {
+                    Rectangle activeRec = (Rectangle)cellGrid.thisGrid[i][a];
+                    if (cellGrid.thisGridVals[i][a] == 1)
+                    {
+                        //invoke dispatcher to update colour of cell (otherwise unable to access rectangle due to being on a different thread) :D
+                        Dispatcher.Invoke(new Action(() => {
+                            activeRec.Fill = Brushes.White;
+                            cellGrid.thisGridVals[i][a] = 0;
+                        }));
+                    }
+                    else
+                    {
+                        cellGrid.thisGridVals[i][a] = 1;
+                        Dispatcher.Invoke(new Action(() => {
+                            activeRec.Fill = Brushes.Red;
+                        }));
+                    }
+                    
+                    
+                }
+            }
 
-            //attempt to change fill of rectangle at selected location to red and refresh render of rectangle
-            try
-            {
-                Rectangle activeRec = (Rectangle)cellGrid.thisGrid[selecty][selectx];
-                activeRec.Fill = Brushes.Red;
-                activeRec.Refresh();
-            }
-            //or show an error message
-            catch (Exception ex)
-            {
-                //convert error message
-                string errorMessage = ex.ToString();
-                MessageBox.Show(errorMessage);
-            }
+            
+            
+            
+
 
             
 
