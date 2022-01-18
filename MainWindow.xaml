@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cellular_Automata"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" MinHeight="450" MinWidth="800" MaxHeight="450" MaxWidth="800">
-    <Canvas Name="MyCanvas" Focusable="True" Background="Black" Opacity="0.93">
+    <Canvas Name="MyCanvas" MouseLeftButtonDown="click" Focusable="True" Background="Black" Opacity="0.93">
         <TextBlock Canvas.Left="269" TextWrapping="Wrap" Text="Cellular Automata" Canvas.Top="36" Foreground="White" FontSize="30" FontFamily="Bahnschrift SemiBold" FontWeight="Bold">
 
         </TextBlock>
