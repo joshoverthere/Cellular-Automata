@@ -47,25 +47,25 @@ namespace Cellular_Automata
             Brush WhiteBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 
             //loop through rows
-            for (int e = 0; e < 60; e++)
+            for (int e = 0; e < 30; e++)
             {
                 List<Rectangle> row = new List<Rectangle>();
                 List<int> rowVals = new List<int>();
 
                 //loop through columns
-                for (int i = 0; i < 60; i++)
+                for (int i = 0; i < 30; i++)
                 {
                     //create rectangle with parameters
                     Rectangle newRec = new Rectangle();
-                    newRec.Width = 5;
-                    newRec.Height = 5;
-                    newRec.StrokeThickness = (2.5/3);
+                    newRec.Width = 10;
+                    newRec.Height = 10;
+                    newRec.StrokeThickness = (5/3);
                     newRec.Stroke = Brushes.Black;
                     newRec.Fill = WhiteBrush;
 
                     //set rectangle position
-                    Canvas.SetLeft(newRec, (240 + (i * 5)));
-                    Canvas.SetTop(newRec, 85 + (e * 5));
+                    Canvas.SetLeft(newRec, (240 + (i * 10)));
+                    Canvas.SetTop(newRec, 85 + (e * 10));
 
                     //add new rectangle to canvas for render
                     MyCanvas.Children.Add(newRec);
@@ -81,20 +81,20 @@ namespace Cellular_Automata
             }
 
             //randomly fill 5/6 of the grid with enabled cells
-            for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < (cellGrid.thisGrid.Count * cellGrid.thisGrid[0].Count); i++)
             {
-                int selectx = r.Next(0,60);
-                int selecty = r.Next(0,60);
+                int selectx = r.Next(0,30);
+                int selecty = r.Next(0,30);
                 cellGrid.thisGridVals[selecty][selectx] = 1;
             }
             
             //set timer for refreshing the grid (every 200 millisecs)
-            System.Timers.Timer _timer = new System.Timers.Timer(200);
+            System.Timers.Timer _timer = new System.Timers.Timer(50);
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(OnElapsedEvent);
 
             //set timer for running new generation (every 200 millisecs)
-            System.Timers.Timer _timer2 = new System.Timers.Timer(200);
+            System.Timers.Timer _timer2 = new System.Timers.Timer(50);
             _timer2.Enabled = true;
             _timer2.Elapsed += new ElapsedEventHandler(OnElapsedEvent2);
             
